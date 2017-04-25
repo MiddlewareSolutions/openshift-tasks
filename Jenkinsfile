@@ -3,7 +3,7 @@ node('maven') {
    def mvnCmd = "mvn -s cicd-settings.xml"
 
    stage ('Build') {
-     git branch: 'master', url: 'http://gogs-cicd.192.168.99.101.nip.io/developer/openshift-tasks.git'
+     git branch: 'master', url: 'http://gogs:3000/developer/openshift-tasks.git'
      sh "${mvnCmd} clean install -DskipTests=true"
    }
 
