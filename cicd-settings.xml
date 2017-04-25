@@ -51,7 +51,7 @@ under the License.
    |
    | Default: ${user.home}/.m2/repository -->
   <localRepository>/tmp/m2-repository</localRepository>
- 
+
 
   <!-- interactiveMode
    | This will determine whether maven prompts you when it needs input. If set to false,
@@ -122,7 +122,7 @@ under the License.
       <password>repopwd</password>
     </server>
     -->
-	
+
     <!-- Another sample, using keys to authenticate.
     <server>
       <id>siteServer</id>
@@ -130,13 +130,13 @@ under the License.
       <passphrase>optional; leave empty if not used.</passphrase>
     </server>
     -->
-	
+
 	<server>
       <id>nexus</id>
       <username>anonymous</username>
       <password>anonymous</password>
     </server>
-	
+
   </servers>
 
   <!-- mirrors
@@ -167,7 +167,7 @@ under the License.
       <id>nexus</id>
       <mirrorOf>*</mirrorOf>
       <name>Public Nexus repository</name>
-      <url>http://nexus-cicd.192.168.99.101.nip.io/content/groups/public/</url>
+      <url>http://nexus:8081/content/groups/public/</url>
     </mirror>
   </mirrors>
 
@@ -264,5 +264,5 @@ under the License.
    | List of profiles that are active for all builds.
    | -->
   <activeProfiles />
-  
+
 </settings>

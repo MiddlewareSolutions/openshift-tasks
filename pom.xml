@@ -52,13 +52,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>openshift-repository</id>
-            <url>https://mirror.openshift.com/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
-
     <distributionManagement>
       <repository>
          <id>nexus</id>
@@ -141,7 +134,7 @@
             <artifactId>arquillian-protocol-servlet</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -276,11 +269,11 @@
             </dependencies>
         </profile>
         <profile>
-			<!-- When built in OpenShift the 'openshift' profile will be used when 
+			<!-- When built in OpenShift the 'openshift' profile will be used when
 				invoking mvn. -->
-			<!-- Use this profile for any OpenShift specific customization your app 
+			<!-- Use this profile for any OpenShift specific customization your app
 				will need. -->
-			<!-- By default that is to put the resulting archive into the 'deployments' 
+			<!-- By default that is to put the resulting archive into the 'deployments'
 				folder. -->
 			<!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
 			<id>openshift</id>
