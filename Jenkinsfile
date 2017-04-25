@@ -2,6 +2,9 @@ node('maven') {
    // define commands
    def mvnCmd = "mvn -s cicd-settings.xml"
 
+   // define project name
+   def projectName = "openshift-tasks"
+
    stage ('Build') {
      git branch: 'master', url: 'http://gogs:3000/developer/openshift-tasks.git'
      sh "${mvnCmd} clean install -DskipTests=true"
@@ -27,17 +30,22 @@ node('maven') {
      // clean old build OpenShift
      sh "rm -rf oc-build && mkdir -p oc-build/deployments"
      sh "cp target/openshift-tasks.war oc-build/deployments/ROOT.war"
+
      // change project to DEV
      sh "oc project dev"
+
      // clean up. keep the image stream
-     sh "oc delete bc,dc,svc,route -l app=tasks -n dev"
+     sh "oc delete bc,dc,svc,route -l app=${projectName} -n dev"
+
      // create build. override the exit code since it complains about exising imagestream
-     sh "oc new-build --name=tasks --image-stream=jboss-eap70-openshift --binary=true --labels=app=tasks -n dev || true"
+     sh "oc new-build --name=${projectName} --image-stream=jboss-eap70-openshift --binary=true --labels=app=${projectName} -n dev || true"
+
      // build image
-     sh "oc start-build tasks --from-dir=oc-build --wait=true -n dev"
+     sh "oc start-build ${projectName} --from-dir=oc-build --wait=true -n dev"
+
      // deploy image
-     sh "oc new-app tasks:latest -n dev"
-     sh "oc expose svc/tasks -n dev"
+     sh "oc new-app ${projectName}:latest -n dev"
+     sh "oc expose svc/${projectName} -n dev"
    }
 
    stage ('Deploy STAGE') {
@@ -47,13 +55,17 @@ node('maven') {
 
      def v = version()
      // tag for stage
-     sh "oc tag dev/tasks:latest stage/tasks:${v}"
+     sh "oc tag dev/${projectName}:latest stage/${projectName}:${v}"
+
+     // change project
      sh "oc project stage"
+
      // clean up. keep the imagestream
-     sh "oc delete bc,dc,svc,route -l app=tasks -n stage"
+     sh "oc delete bc,dc,svc,route -l app=${projectName} -n stage"
+
      // deploy stage image
-     sh "oc new-app tasks:${v} -n stage"
-     sh "oc expose svc/tasks -n stage"
+     sh "oc new-app ${projectName}:${v} -n stage"
+     sh "oc expose svc/${projectName} -n stage"
    }
 }
 
