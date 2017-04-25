@@ -4,7 +4,7 @@ node('maven') {
 
    // define project name
    def projectName = "openshift-tasks"
-   
+
    // define targets
    def osDevTarget = "dev"
    def osStageTarget = "stage"
@@ -30,7 +30,7 @@ node('maven') {
     sh "${mvnCmd} deploy -DskipTests=true"
    }
 
-   stage ('Deploy ${osDevTarget}') {
+   stage ('Deploy DEV') {
      // clean old build OpenShift
      sh "rm -rf oc-build && mkdir -p oc-build/deployments"
      sh "cp target/openshift-tasks.war oc-build/deployments/ROOT.war"
@@ -52,7 +52,7 @@ node('maven') {
      sh "oc expose svc/${projectName} -n ${osDevTarget}"
    }
 
-   stage ('Deploy ${osStageTarget}') {
+   stage ('Deploy STAGE') {
      timeout(time:5, unit:'MINUTES') {
         input message: "Promote to STAGE?", ok: "Promote"
      }
