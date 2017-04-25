@@ -1,6 +1,6 @@
 node('maven') {
    // define commands
-   def mvnCmd = "mvn"
+   def mvnCmd = "mvn -s cicd-settings.xml"
 
    stage ('Build') {
      git branch: 'master', url: 'http://gogs-cicd.192.168.99.101.nip.io/developer/openshift-tasks.git'
@@ -24,8 +24,10 @@ node('maven') {
    }
 
    stage ('Deploy DEV') {
+     // clean old build OpenShift
      sh "rm -rf oc-build && mkdir -p oc-build/deployments"
      sh "cp target/openshift-tasks.war oc-build/deployments/ROOT.war"
+     // change project to DEV
      sh "oc project dev"
      // clean up. keep the image stream
      sh "oc delete bc,dc,svc,route -l app=tasks -n dev"
