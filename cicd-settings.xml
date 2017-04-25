@@ -133,8 +133,8 @@ under the License.
 
 	<server>
       <id>nexus</id>
-      <username>anonymous</username>
-      <password>anonymous</password>
+      <username>deployment</username>
+      <password>deployment123</password>
     </server>
 
   </servers>
@@ -257,7 +257,9 @@ under the License.
       </properties>
     </profile>
     -->
-
+    <profile>
+      <id>minishift</id>
+    </profile>
   </profiles>
 
   <!-- activeProfiles
