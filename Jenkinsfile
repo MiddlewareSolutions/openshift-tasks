@@ -14,26 +14,13 @@ node('maven') {
      sh "${mvnCmd} clean install -DskipTests=true"
    }
 
-   stage ('Test and Analysis') {
-     parallel (
-         'Test': {
-             sh "${mvnCmd} test"
-             step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
-         },
-         'Static Analysis': {
-             sh "${mvnCmd} jacoco:report sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -DskipTests=true"
-         }
-     )
-   }
-
-   stage ('Push to Nexus') {
-    sh "${mvnCmd} deploy -DskipTests=true"
-   }
-
    stage ('Deploy DEV') {
      // clean old build OpenShift
      sh "rm -rf oc-build && mkdir -p oc-build/deployments"
+     
+     // copy ressources
      sh "cp target/openshift-tasks.war oc-build/deployments/ROOT.war"
+     sh "cp configuration oc-build"
 
      // change project to DEV
      sh "oc project ${osDevTarget}"
@@ -52,6 +39,22 @@ node('maven') {
      sh "oc expose svc/${projectName} -n ${osDevTarget}"
    }
 
+   stage ('Unit Tests') {
+     parallel (
+         'Test': {
+             sh "${mvnCmd} test"
+             step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+         },
+         'Static Analysis': {
+             sh "${mvnCmd} jacoco:report sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -DskipTests=true"
+         }
+     )
+   }
+
+   stage ('Push to Nexus') {
+    sh "${mvnCmd} deploy -DskipTests=true"
+   }
+
    stage ('Deploy STAGE') {
      timeout(time:5, unit:'MINUTES') {
         input message: "Promote to STAGE?", ok: "Promote"
@@ -59,7 +62,7 @@ node('maven') {
 
      def v = version()
      // tag for stage
-     sh "oc tag dev/${projectName}:latest ${osStageTarget}/${projectName}:${v}"
+     sh "oc tag ${osDevTarget}/${projectName}:latest ${osStageTarget}/${projectName}:${v}"
 
      // change project
      sh "oc project ${osStageTarget}"
@@ -70,6 +73,11 @@ node('maven') {
      // deploy stage image
      sh "oc new-app ${projectName}:${v} -n ${osStageTarget}"
      sh "oc expose svc/${projectName} -n ${osStageTarget}"
+   }
+
+   stage ('Integration Tests') {
+     sh "${mvnCmd} verify"
+     step([$class: 'JUnitResultArchiver', testResults: '**/target/failsafe-reports/TEST-*.xml'])
    }
 }
 
