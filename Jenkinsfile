@@ -52,7 +52,7 @@ node('maven') {
    }
 
    stage ('Push to Nexus') {
-//    sh "${mvnCmd} deploy -DskipTests=true"
+    sh "${mvnCmd} deploy -DskipTests=true"
    }
 
    stage ('Deploy STAGE') {
