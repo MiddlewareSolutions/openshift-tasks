@@ -40,15 +40,10 @@ node('maven') {
    }
 
    stage ('Unit Tests') {
-     parallel (
-         'Test': {
-             sh "${mvnCmd} test"
-             step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
-         },
-         'Static Analysis': {
-             sh "${mvnCmd} jacoco:report sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -DskipTests=true"
-         }
-     )
+     sh "${mvnCmd} test"
+     step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+
+     sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dmaven.test.failure.ignore=true"
    }
 
    stage ('Push to Nexus') {
@@ -78,6 +73,8 @@ node('maven') {
    stage ('Integration Tests') {
      sh "${mvnCmd} verify"
      step([$class: 'JUnitResultArchiver', testResults: '**/target/failsafe-reports/TEST-*.xml'])
+
+     sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dmaven.test.failure.ignore=true"
    }
 }
 
