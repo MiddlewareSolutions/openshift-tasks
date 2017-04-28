@@ -17,7 +17,7 @@ node('maven') {
    stage ('Deploy DEV') {
      // clean old build OpenShift
      sh "rm -rf oc-build && mkdir -p oc-build/deployments"
-     
+
      // copy ressources
      sh "cp target/openshift-tasks.war oc-build/deployments/ROOT.war"
      sh "cp configuration oc-build"
@@ -52,7 +52,7 @@ node('maven') {
    }
 
    stage ('Push to Nexus') {
-    sh "${mvnCmd} deploy -DskipTests=true"
+//    sh "${mvnCmd} deploy -DskipTests=true"
    }
 
    stage ('Deploy STAGE') {
