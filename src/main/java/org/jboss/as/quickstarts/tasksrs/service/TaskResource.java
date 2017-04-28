@@ -125,8 +125,9 @@ public class TaskResource {
             principal = context.getUserPrincipal();
 
         if (principal == null)
-            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
-
+//            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+        	return new User("anonymous");
+        
         return getUser(principal.getName());
     }
 
