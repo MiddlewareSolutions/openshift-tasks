@@ -133,8 +133,8 @@ under the License.
 
 	<server>
       <id>nexus</id>
-      <username>deployment</username>
-      <password>deployment123</password>
+      <username>admin</username>
+      <password>admin123</password>
     </server>
 
   </servers>
