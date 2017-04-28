@@ -20,7 +20,7 @@ node('maven') {
 
      // copy ressources
      sh "cp target/openshift-tasks.war oc-build/deployments/ROOT.war"
-     sh "cp configuration oc-build"
+     sh "cp ./configuration oc-build/"
 
      // change project to DEV
      sh "oc project ${osDevTarget}"
