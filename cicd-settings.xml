@@ -133,8 +133,8 @@ under the License.
 
 	<server>
       <id>nexus</id>
-      <username>admin</username>
-      <password>admin123</password>
+      <username>jenkins</username>
+      <password>jenkins123</password>
     </server>
 
   </servers>
@@ -167,7 +167,7 @@ under the License.
       <id>nexus</id>
       <mirrorOf>*</mirrorOf>
       <name>Public Nexus repository</name>
-      <url>http://nexus:8081/content/groups/public/</url>
+      <url>http://nexus:8081/repository/maven-public/</url>
     </mirror>
   </mirrors>
 

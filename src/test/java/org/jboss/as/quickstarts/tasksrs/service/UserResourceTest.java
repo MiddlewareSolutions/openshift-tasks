@@ -44,7 +44,6 @@ public class UserResourceTest {
 
 	@Test
 	// TODO: comment out to make the test run
-	@Ignore
 	public void getUsersSortedByTask() {
 		List<User> users = userResource.getUsers();
 
