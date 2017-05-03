@@ -1,7 +1,5 @@
 node('maven') {
-   // define commands
-   def mvnCmd = "mvn -s cicd-settings.xml"
-
+	
    // define project name
    def projectName = "openshift-tasks"
 
@@ -11,7 +9,12 @@ node('maven') {
 
    stage ('Build') {
      git branch: 'master', url: 'http://gogs:3000/developer/openshift-tasks.git'
-     sh "${mvnCmd} clean install -DskipTests=true"
+	 
+	 // use a global settings file 
+	 configFileProvider(
+        [configFile(fileId: 'settings-global', variable: 'MAVEN_SETTINGS')]) {
+        sh "mvn -s $MAVEN_SETTINGS install -DskipTests=true"
+    }
    }
 
    stage ('Deploy DEV') {
@@ -43,11 +46,16 @@ node('maven') {
      sh "${mvnCmd} test"
      step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
 
-     sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dmaven.test.failure.ignore=true"
+	 // use a global settings file 
+	 configFileProvider(
+        [configFile(fileId: 'settings-global', variable: 'MAVEN_SETTINGS')]) {
+        sh "mvn -s $MAVEN_SETTINGS sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dmaven.test.failure.ignore=true"
+    }
+	
    }
 
    stage ('Push to Nexus') {
-    sh "${mvnCmd} deploy -DskipTests=true"
+    sh "${mvnCmd} deploy -DskipTests=true -e"
    }
 
    stage ('Deploy STAGE') {
@@ -74,7 +82,11 @@ node('maven') {
      sh "${mvnCmd} verify"
      step([$class: 'JUnitResultArchiver', testResults: '**/target/failsafe-reports/TEST-*.xml'])
 
-     sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dmaven.test.failure.ignore=true"
+     // use a global settings file 
+	 configFileProvider(
+        [configFile(fileId: 'settings-global', variable: 'MAVEN_SETTINGS')]) {
+        sh "mvn -s $MAVEN_SETTINGS sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dmaven.test.failure.ignore=true"
+    }
    }
 }
 
