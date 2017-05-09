@@ -8,7 +8,7 @@ node('maven') {
    def osStageTarget = "stage"
 
    stage ('Build') {
-     git branch: 'master', url: 'http://gogs:3000/developer/openshift-tasks.git'
+//     git branch: 'master', url: 'http://gogs:3000/developer/openshift-tasks.git'
 	 
 	 // use a global settings file 
 	 configFileProvider(
