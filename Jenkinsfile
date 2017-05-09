@@ -43,8 +43,12 @@ node('maven') {
    }
 
    stage ('Unit Tests') {
-     sh "${mvnCmd} test"
-     step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+     // use a global settings file 
+	 configFileProvider(
+        [configFile(fileId: 'settings-global', variable: 'MAVEN_SETTINGS')]) {
+		sh "mvn -s $MAVEN_SETTINGS test"
+		step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+    }
 
 	 // use a global settings file 
 	 configFileProvider(
@@ -55,7 +59,12 @@ node('maven') {
    }
 
    stage ('Push to Nexus') {
-    sh "${mvnCmd} deploy -DskipTests=true -e"
+    // use a global settings file 
+	configFileProvider(
+        [configFile(fileId: 'settings-global', variable: 'MAVEN_SETTINGS')]) {
+        sh "mvn -s $MAVEN_SETTINGS deploy -DskipTests=true"
+    }
+
    }
 
    stage ('Deploy STAGE') {
@@ -79,7 +88,12 @@ node('maven') {
    }
 
    stage ('Integration Tests') {
-     sh "${mvnCmd} verify"
+   // use a global settings file 
+	configFileProvider(
+        [configFile(fileId: 'settings-global', variable: 'MAVEN_SETTINGS')]) {
+        sh "mvn -s $MAVEN_SETTINGS verify"
+    }
+ 
      step([$class: 'JUnitResultArchiver', testResults: '**/target/failsafe-reports/TEST-*.xml'])
 
      // use a global settings file 
