@@ -1,0 +1,215 @@
+{
+  "_appName": "Boomerang",
+  "_appVersion": "3.1.1",
+  "_timestamp": 1493373999413,
+  "projectName": "",
+  "projects": [
+    {
+      "name": "Boomerang",
+      "last_accessed": 1493365476319,
+      "id": 1,
+      "_services": [
+        {
+          "projectId": 1,
+          "name": "API Gravitee Tasks",
+          "isRest": true,
+          "endpoints": [],
+          "id": 1,
+          "soap": null,
+          "_operations": [
+            {
+              "name": "__SYSTEM__",
+              "position": 0,
+              "serviceId": 1,
+              "id": 1,
+              "_requests": [
+                {
+                  "operationId": 1,
+                  "name": "tasks",
+                  "endpoint": "http://gateway-gravitee.192.168.99.101.nip.io/ws/tasks",
+                  "method": "GET",
+                  "payload": {
+                    "mode": "json",
+                    "raw": ""
+                  },
+                  "auth": {
+                    "basic": {
+                      "username": "redhat",
+                      "password": "redhat1!",
+                      "type": "httpBasic"
+                    }
+                  },
+                  "response": {
+                    "time": 44,
+                    "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><collection><task id=\"1\" ownerName=\"redhat\"><title>task1</title></task></collection>",
+                    "status": {
+                      "code": 200,
+                      "text": "OK"
+                    },
+                    "headers": "Pragma: no-cache\r\nDate: Fri, 28 Apr 2017 10:03:28 GMT\r\nServer: JBoss-EAP/7\r\nX-Powered-By: Undertow/1\r\nContent-Type: application/xml\r\nCache-Control: no-cache, no-store, must-revalidate\r\nContent-Length: 139\r\nExpires: 0\r\n",
+                    "contentType": "application/xml"
+                  },
+                  "headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Basic cmVkaGF0OnJlZGhhdDEh"
+                    },
+                    {
+                      "name": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "name": "",
+                      "value": ""
+                    }
+                  ],
+                  "position": 1,
+                  "id": 1,
+                  "_state": null,
+                  "show": true
+                },
+                {
+                  "operationId": 1,
+                  "name": "putTask1",
+                  "endpoint": "http://gateway-gravitee.192.168.99.101.nip.io/ws/tasks/task1",
+                  "method": "POST",
+                  "payload": {
+                    "mode": "json",
+                    "raw": ""
+                  },
+                  "auth": {
+                    "basic": {
+                      "username": "redhat",
+                      "password": "redhat1!",
+                      "type": "httpBasic"
+                    }
+                  },
+                  "response": {
+                    "time": 52,
+                    "data": "",
+                    "status": {
+                      "code": 201,
+                      "text": "Created"
+                    },
+                    "headers": "Pragma: no-cache\r\nDate: Fri, 28 Apr 2017 10:03:14 GMT\r\nServer: JBoss-EAP/7\r\nX-Powered-By: Undertow/1\r\nLocation: http://gateway-gravitee.192.168.99.101.nip.io/ws/tasks/1\r\nCache-Control: no-cache, no-store, must-revalidate\r\nContent-Length: 0\r\nExpires: 0\r\n",
+                    "contentType": null
+                  },
+                  "headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Basic cmVkaGF0OnJlZGhhdDEh"
+                    },
+                    {
+                      "name": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "name": "",
+                      "value": ""
+                    }
+                  ],
+                  "position": 2,
+                  "id": 2,
+                  "_state": null,
+                  "show": true
+                },
+                {
+                  "operationId": 1,
+                  "name": "getTask1",
+                  "endpoint": "http://gateway-gravitee.192.168.99.101.nip.io/ws/tasks/1",
+                  "method": "GET",
+                  "payload": {
+                    "mode": "json",
+                    "raw": ""
+                  },
+                  "auth": {
+                    "basic": {
+                      "username": "redhat",
+                      "password": "redhat1!",
+                      "type": "httpBasic"
+                    }
+                  },
+                  "response": {
+                    "time": 42,
+                    "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><task id=\"1\" ownerName=\"redhat\"><title>task1</title></task>",
+                    "status": {
+                      "code": 200,
+                      "text": "OK"
+                    },
+                    "headers": "Pragma: no-cache\r\nDate: Fri, 28 Apr 2017 10:04:49 GMT\r\nServer: JBoss-EAP/7\r\nX-Powered-By: Undertow/1\r\nContent-Type: application/xml\r\nCache-Control: no-cache, no-store, must-revalidate\r\nContent-Length: 114\r\nExpires: 0\r\n",
+                    "contentType": "application/xml"
+                  },
+                  "headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Basic cmVkaGF0OnJlZGhhdDEh"
+                    },
+                    {
+                      "name": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "name": "",
+                      "value": ""
+                    }
+                  ],
+                  "position": 3,
+                  "_state": null,
+                  "show": true,
+                  "id": 3,
+                  "script": ""
+                },
+                {
+                  "operationId": 1,
+                  "name": "loadCpu",
+                  "endpoint": "http://gateway-gravitee.192.168.99.101.nip.io/demo/load/5",
+                  "method": "GET",
+                  "payload": {
+                    "mode": "json",
+                    "raw": ""
+                  },
+                  "auth": {
+                    "basic": {
+                      "username": "redhat",
+                      "password": "redhat1!",
+                      "type": "httpBasic"
+                    }
+                  },
+                  "response": {
+                    "time": 28,
+                    "data": "<html><head><title>Error</title></head><body>Not Found</body></html>",
+                    "status": {
+                      "code": 404,
+                      "text": "Not Found"
+                    },
+                    "headers": "Date: Fri, 28 Apr 2017 10:06:00 GMT\r\nServer: JBoss-EAP/7\r\nX-Powered-By: Undertow/1\r\nContent-Length: 68\r\nContent-Type: text/html;charset=UTF-8\r\n",
+                    "contentType": "text/html;charset=UTF-8"
+                  },
+                  "headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Basic cmVkaGF0OnJlZGhhdDEh"
+                    },
+                    {
+                      "name": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "name": "",
+                      "value": ""
+                    }
+                  ],
+                  "position": 4,
+                  "_state": null,
+                  "show": true,
+                  "script": "",
+                  "id": 4
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
