@@ -33,7 +33,7 @@ node('maven') {
      sh "oc delete bc,dc,svc,route -l app=${projectName} -n ${osDevTarget}"
 
      // create build. override the exit code since it complains about exising imagestream
-     sh "oc new-build --name=${projectName} --image-stream=jboss-eap70-openshift --binary=true --labels=app=${projectName} -n ${osDevTarget} || true"
+     sh "oc new-build --name=${projectName} --image-stream=jboss-eap70-openshift --allow-missing-imagestream-tags --binary=true --labels=app=${projectName} -n ${osDevTarget} || true"
 
      // build image
      sh "oc start-build ${projectName} --from-dir=oc-build --wait=true -n ${osDevTarget}"
