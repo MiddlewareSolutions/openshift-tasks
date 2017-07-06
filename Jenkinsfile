@@ -47,7 +47,7 @@ node('maven') {
      // use a global settings file 
 	 configFileProvider(
         [configFile(fileId: 'settings-global', variable: 'MAVEN_SETTINGS')]) {
-		sh "mvn -s $MAVEN_SETTINGS test"
+		sh "mvn -s $MAVEN_SETTINGS test -Dmaven.test.failure.ignore=true"
 		step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
     }
 
@@ -92,7 +92,7 @@ node('maven') {
    // use a global settings file 
 	configFileProvider(
         [configFile(fileId: 'settings-global', variable: 'MAVEN_SETTINGS')]) {
-        sh "mvn -s $MAVEN_SETTINGS verify"
+        sh "mvn -s $MAVEN_SETTINGS verify -Dmaven.test.failure.ignore=true"
     }
  
      step([$class: 'JUnitResultArchiver', testResults: '**/target/failsafe-reports/TEST-*.xml'])
